@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Category(models.Model):
+    class Meta:
+        verbose_name_plural = 'Categories'
+
     name = models.CharField(max_length=50)
     description = models.TextField()
     thumbnail = models.ImageField(upload_to='category/thumbnail', blank=True)
@@ -36,6 +39,10 @@ class Product(models.Model):
 
 
 class ProductOption(models.Model):
+    class Meta:
+        verbose_name = 'Product Option'
+        verbose_name_plural = 'Product Options'
+
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
     option = models.ForeignKey(Option, on_delete=models.DO_NOTHING)
 
@@ -44,6 +51,9 @@ class ProductOption(models.Model):
 
 
 class ProductCategory(models.Model):
+    class Meta:
+        verbose_name_plural = 'Product Categories'
+
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
 
@@ -65,7 +75,7 @@ class Order(models.Model):
     ]
 
     customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
-    amount = models.DecimalField(decimal_places=2)
+    amount = models.DecimalField(decimal_places=2, max_digits=6)
     shipping_address = models.TextField()
     order_address = models.TextField()
     order_email = models.EmailField()
@@ -74,8 +84,11 @@ class Order(models.Model):
 
 
 class OrderDetails(models.Model):
+    class Meta:
+        verbose_name_plural = 'Order Details'
+
     order = models.ForeignKey(Order, on_delete=models.DO_NOTHING)
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
-    price = models.DecimalField(decimal_places=2)
+    price = models.DecimalField(decimal_places=2, max_digits=6)
     sku = models.BigIntegerField()
     quantity = models.IntegerField(default=1)
